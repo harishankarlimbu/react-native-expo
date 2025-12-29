@@ -1,112 +1,154 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { Collapsible } from '@/components/ui/collapsible';
-import { ExternalLink } from '@/components/external-link';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
+import { ScrollView, View, Text } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Fonts } from '@/constants/theme';
+import { useColorScheme } from '@/hooks/use-color-scheme';
+import { Colors } from '@/constants/theme';
 
 export default function TabTwoScreen() {
+  const colorScheme = useColorScheme();
+  const colors = Colors[colorScheme ?? 'light'];
+  const isDark = colorScheme === 'dark';
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
-          style={styles.headerImage}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText
-          type="title"
-          style={{
-            fontFamily: Fonts.rounded,
-          }}>
-          Explore
+    <ThemedView className="flex-1 px-4 sm:px-6 md:px-8 pt-6 pb-4">
+      <View className="mb-6 mt-2">
+        <ThemedText type="title" className="text-3xl sm:text-4xl font-bold">
+          About
         </ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image
-          source={require('@/assets/images/react-logo.png')}
-          style={{ width: 100, height: 100, alignSelf: 'center' }}
-        />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user&apos;s current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful{' '}
-          <ThemedText type="defaultSemiBold" style={{ fontFamily: Fonts.mono }}>
-            react-native-reanimated
-          </ThemedText>{' '}
-          library to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
+      </View>
+
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+        {/* App Info Card */}
+        <View
+          className={`p-6 mb-5 rounded-2xl items-center ${
+            isDark
+              ? 'bg-gray-800/50 border border-gray-700'
+              : 'bg-gray-50 border border-gray-200'
+          }`}>
+          <IconSymbol name="checkmark.circle.fill" size={56} color={colors.tint} />
+          <ThemedText
+            type="subtitle"
+            className="mt-4 mb-3 text-xl sm:text-2xl font-bold text-center">
+            Simple Todo App
+          </ThemedText>
+          <ThemedText className="text-base sm:text-lg text-center leading-6 text-gray-700 dark:text-gray-300">
+            A clean and simple todo list application built with React Native and Expo.
+          </ThemedText>
+        </View>
+
+        {/* Features Card */}
+        <View
+          className={`p-6 mb-5 rounded-2xl items-center ${
+            isDark
+              ? 'bg-gray-800/50 border border-gray-700'
+              : 'bg-gray-50 border border-gray-200'
+          }`}>
+          <IconSymbol name="star.fill" size={56} color={colors.tint} />
+          <ThemedText
+            type="subtitle"
+            className="mt-4 mb-4 text-xl sm:text-2xl font-bold text-center">
+            Features
+          </ThemedText>
+          <View className="w-full mt-3 gap-3">
+            <View className="flex-row items-center gap-3">
+              <View className="bg-blue-100 dark:bg-blue-900/30 p-1.5 rounded-full">
+                <IconSymbol name="checkmark" size={18} color={colors.tint} />
+              </View>
+              <ThemedText className="flex-1 text-base sm:text-lg font-medium">
+                Add new todos with priority levels
+              </ThemedText>
+            </View>
+            <View className="flex-row items-center gap-3">
+              <View className="bg-blue-100 dark:bg-blue-900/30 p-1.5 rounded-full">
+                <IconSymbol name="checkmark" size={18} color={colors.tint} />
+              </View>
+              <ThemedText className="flex-1 text-base sm:text-lg font-medium">
+                Edit and update todos
+              </ThemedText>
+            </View>
+            <View className="flex-row items-center gap-3">
+              <View className="bg-blue-100 dark:bg-blue-900/30 p-1.5 rounded-full">
+                <IconSymbol name="checkmark" size={18} color={colors.tint} />
+              </View>
+              <ThemedText className="flex-1 text-base sm:text-lg font-medium">
+                Filter todos (All, Active, Completed)
+              </ThemedText>
+            </View>
+            <View className="flex-row items-center gap-3">
+              <View className="bg-blue-100 dark:bg-blue-900/30 p-1.5 rounded-full">
+                <IconSymbol name="checkmark" size={18} color={colors.tint} />
+              </View>
+              <ThemedText className="flex-1 text-base sm:text-lg font-medium">
+                Search todos by text
+              </ThemedText>
+            </View>
+            <View className="flex-row items-center gap-3">
+              <View className="bg-blue-100 dark:bg-blue-900/30 p-1.5 rounded-full">
+                <IconSymbol name="checkmark" size={18} color={colors.tint} />
+              </View>
+              <ThemedText className="flex-1 text-base sm:text-lg font-medium">
+                Priority levels (High, Medium, Low)
+              </ThemedText>
+            </View>
+            <View className="flex-row items-center gap-3">
+              <View className="bg-blue-100 dark:bg-blue-900/30 p-1.5 rounded-full">
+                <IconSymbol name="checkmark" size={18} color={colors.tint} />
+              </View>
+              <ThemedText className="flex-1 text-base sm:text-lg font-medium">
+                Statistics and task tracking
+              </ThemedText>
+            </View>
+            <View className="flex-row items-center gap-3">
+              <View className="bg-blue-100 dark:bg-blue-900/30 p-1.5 rounded-full">
+                <IconSymbol name="checkmark" size={18} color={colors.tint} />
+              </View>
+              <ThemedText className="flex-1 text-base sm:text-lg font-medium">
+                Clear completed todos
+              </ThemedText>
+            </View>
+            <View className="flex-row items-center gap-3">
+              <View className="bg-blue-100 dark:bg-blue-900/30 p-1.5 rounded-full">
+                <IconSymbol name="checkmark" size={18} color={colors.tint} />
+              </View>
+              <ThemedText className="flex-1 text-base sm:text-lg font-medium">
+                Dark mode support
+              </ThemedText>
+            </View>
+          </View>
+        </View>
+
+        {/* How to Use Card */}
+        <View
+          className={`p-6 mb-5 rounded-2xl items-center ${
+            isDark
+              ? 'bg-gray-800/50 border border-gray-700'
+              : 'bg-gray-50 border border-gray-200'
+          }`}>
+          <IconSymbol name="info.circle.fill" size={56} color={colors.tint} />
+          <ThemedText
+            type="subtitle"
+            className="mt-4 mb-4 text-xl sm:text-2xl font-bold text-center">
+            How to Use
+          </ThemedText>
+          <View className="w-full">
+            <Text
+              className={`text-base sm:text-lg text-center leading-7 ${
+                isDark ? 'text-gray-300' : 'text-gray-700'
+              }`}>
+              1. Type a todo and select priority{'\n'}
+              2. Tap the + button to add{'\n'}
+              3. Use filters to view All/Active/Completed{'\n'}
+              4. Search todos using the search bar{'\n'}
+              5. Tap edit icon to modify a todo{'\n'}
+              6. Tap flag icon to change priority{'\n'}
+              7. Tap checkbox to mark complete{'\n'}
+              8. Tap trash icon to delete{'\n'}
+              9. Use "Clear Completed" to remove all done tasks
+            </Text>
+          </View>
+        </View>
+      </ScrollView>
+    </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
-  },
-});
